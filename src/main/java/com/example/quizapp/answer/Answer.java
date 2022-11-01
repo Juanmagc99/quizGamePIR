@@ -14,17 +14,17 @@ import javax.persistence.*;
 public class Answer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "ans")
-    private String ans;
+    @Column(name = "options")
+    private String option;
 
     @Column(name = "result")
-    private  Boolean result;
+    private  Boolean correct;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "qst_id", nullable = false)
     private Question question;
 }

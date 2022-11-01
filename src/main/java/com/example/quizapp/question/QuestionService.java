@@ -9,9 +9,12 @@ public interface QuestionService {
 
     Optional<Question> findById(Long id);
 
-    Question save(Question question);
+    Question save(QuestionDTO questionDTO);
 
     void delete(Long id);
 
-    Question toDTO(QuestionDTO qstDTO);
+    Question fromDTO(QuestionDTO questionDTO);
+
+    QuestionDTO toDTO(Question question);
+
 }

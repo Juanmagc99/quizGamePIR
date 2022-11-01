@@ -14,9 +14,9 @@ import java.util.Map;
 public class QuestionController {
 
     @Autowired
-    private QuestionService questionService;
+    private QuestionServiceImpl questionService;
 
-    @GetMapping("/question")
+    @GetMapping("/questions")
     public QuestionDTO getForm(){
         QuestionDTO qstDTO = new QuestionDTO();
         qstDTO.setQst("¿Comó te llamas?");
@@ -24,25 +24,30 @@ public class QuestionController {
 
         AnswerDTO aswDTO = new AnswerDTO();
         aswDTO.setId(0L);
-        aswDTO.setAnsw("Pablo");
+        aswDTO.setOption("Pablo");
         aswDTO.setResult(Boolean.TRUE);
+        aswDTO.setCorrect(Boolean.FALSE);
 
         AnswerDTO aswDTO2 = new AnswerDTO();
         aswDTO2.setId(1L);
-        aswDTO2.setAnsw("Juanma");
+        aswDTO2.setOption("Juanma");
+        aswDTO2.setCorrect(Boolean.FALSE);
         aswDTO2.setResult(Boolean.FALSE);
 
-        Map<Boolean, AnswerDTO> anwers = new HashMap<Boolean, AnswerDTO>();
-        anwers.put(Boolean.TRUE, aswDTO);
-        anwers.put(Boolean.FALSE, aswDTO2);
+        qstDTO.getAnswers().add(aswDTO2);
+        qstDTO.getAnswers().add(aswDTO);
 
-        qstDTO.setAnswers(anwers);
-
+        questionService.save(qstDTO);
+        System.out.println(qstDTO.getAnswers());
         return qstDTO;
     }
 
-    @PostMapping("/question/new")
+
+    @PostMapping(value = "/question/new", consumes = "application/json")
     public QuestionDTO newQuestion(@RequestBody QuestionDTO newQstDTO){
-        return questionService.saveQuestion();
+
+        System.out.println(newQstDTO);
+        Question question =  this.questionService.save(newQstDTO);
+        return questionService.toDTO(question);
     }
 }
