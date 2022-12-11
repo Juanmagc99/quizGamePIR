@@ -21,7 +21,7 @@ public class Answer {
     @Column(name = "options")
     private String option;
 
-    @Column(name = "result")
+    @Column(name = "correct")
     private  Boolean correct;
 
     @ManyToOne(cascade = CascadeType.ALL)

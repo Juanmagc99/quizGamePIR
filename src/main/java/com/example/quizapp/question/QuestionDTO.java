@@ -23,7 +23,6 @@ public class QuestionDTO {
     private String qst;
 
     @JsonProperty("answers")
-    @JsonDeserialize
     private List<AnswerDTO> answers = new ArrayList<AnswerDTO>();
 
 }

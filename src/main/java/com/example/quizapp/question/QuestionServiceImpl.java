@@ -49,6 +49,7 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public Question fromDTO(QuestionDTO questionDTO) {
         Question question = new Question();
+        question.setId(questionDTO.getId());
         question.setQst(questionDTO.getQst());
         ArrayList<Answer> answers = new ArrayList<Answer>();
         List<AnswerDTO> answersDTO = questionDTO.getAnswers();
@@ -70,6 +71,20 @@ public class QuestionServiceImpl implements QuestionService{
         questionDTO.setQst(question.getQst());
         questionDTO.setAnswers(question.getAnswer().stream().map(a -> this.answerService.toDTO(a)).collect(Collectors.toList()));
         return questionDTO;
+    }
+
+    @Override
+    public Question editQuestion(Long qstId, QuestionDTO editQstDTO) {
+        Optional<Question> questionOp = this.findById(qstId);
+        if(questionOp.isPresent()){
+            QuestionDTO questionDTO = this.toDTO(questionOp.get());
+            questionDTO.setQst(editQstDTO.getQst());
+            List<Answer> answers = editQstDTO.getAnswers().stream().map(a -> this.answerService.editAnswer(a)).collect(Collectors.toList());
+            questionDTO.setAnswers(editQstDTO.getAnswers());
+            return this.questionRepository.save(this.fromDTO(questionDTO));
+        }else {
+            return null;
+        }
     }
 
 

@@ -17,4 +17,6 @@ public interface QuestionService {
 
     QuestionDTO toDTO(Question question);
 
+    Question editQuestion(Long qstId,QuestionDTO questionDTO);
+
 }
